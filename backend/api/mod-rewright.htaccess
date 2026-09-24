@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# /api/students/5  →  student.php?id=5
+RewriteRule ^students/([0-9]+)$ student.php?id=$1 [QSA,L]
+
+# /api/students    →  students.php
+RewriteRule ^students$ students.php [QSA,L]
+
+# /api/stats       →  stats.php
+RewriteRule ^stats$ stats.php [QSA,L]

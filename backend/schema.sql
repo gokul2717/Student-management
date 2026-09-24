@@ -1,17 +1,14 @@
 -- ================================================================
 -- Student Management System — MySQL Schema
--- Run this ONCE to set up your database.
+-- Run ONCE to create the database and students table
 -- ================================================================
 
--- 1. Create the database
 CREATE DATABASE IF NOT EXISTS student_management
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
--- 2. Switch to it
 USE student_management;
 
--- 3. Create the students table
 CREATE TABLE IF NOT EXISTS students (
   id              INT AUTO_INCREMENT PRIMARY KEY,
   name            VARCHAR(120) NOT NULL,
