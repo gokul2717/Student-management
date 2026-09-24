@@ -9,7 +9,7 @@
   // ================================================================
   // API CONFIG
   // ================================================================
-  const API_URL = 'http://localhost:5000/api';
+  const API_URL = 'http://localhost/student-management/backend/api';
 
   async function apiRequest(path, options = {}) {
     const response = await fetch(`${API_URL}${path}`, {
@@ -36,31 +36,31 @@
   // ================================================================
   // DOM REFERENCES
   // ================================================================
-  const studentListEl     = document.getElementById('studentList');
-  const searchInput       = document.getElementById('searchInput');
+  const studentListEl = document.getElementById('studentList');
+  const searchInput = document.getElementById('searchInput');
   const classFilterSelect = document.getElementById('classFilter');
-  const addBtn            = document.getElementById('addBtn');
+  const addBtn = document.getElementById('addBtn');
 
-  const modalBackdrop     = document.getElementById('modalBackdrop');
-  const modalTitle        = document.getElementById('modalTitle');
-  const modalClose        = document.getElementById('modalClose');
-  const cancelBtn         = document.getElementById('cancelBtn');
-  const studentForm       = document.getElementById('studentForm');
+  const modalBackdrop = document.getElementById('modalBackdrop');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalClose = document.getElementById('modalClose');
+  const cancelBtn = document.getElementById('cancelBtn');
+  const studentForm = document.getElementById('studentForm');
 
-  const confirmBackdrop   = document.getElementById('confirmBackdrop');
-  const confirmMessage    = document.getElementById('confirmMessage');
-  const confirmCancel     = document.getElementById('confirmCancel');
-  const confirmDelete     = document.getElementById('confirmDelete');
+  const confirmBackdrop = document.getElementById('confirmBackdrop');
+  const confirmMessage = document.getElementById('confirmMessage');
+  const confirmCancel = document.getElementById('confirmCancel');
+  const confirmDelete = document.getElementById('confirmDelete');
 
-  const fName         = document.getElementById('name');
-  const fRollNumber   = document.getElementById('rollNumber');
-  const fClass        = document.getElementById('class');
-  const fSection      = document.getElementById('section');
-  const fBloodGroup   = document.getElementById('bloodGroup');
-  const fDob          = document.getElementById('dob');
-  const fParentName   = document.getElementById('parentName');
+  const fName = document.getElementById('name');
+  const fRollNumber = document.getElementById('rollNumber');
+  const fClass = document.getElementById('class');
+  const fSection = document.getElementById('section');
+  const fBloodGroup = document.getElementById('bloodGroup');
+  const fDob = document.getElementById('dob');
+  const fParentName = document.getElementById('parentName');
   const fParentMobile = document.getElementById('parentMobile');
-  const fAddress      = document.getElementById('address');
+  const fAddress = document.getElementById('address');
 
   // ================================================================
   // HELPERS
@@ -91,7 +91,7 @@
   // ================================================================
   async function loadStudents() {
     try {
-      students = await apiRequest('/students');
+      students = await apiRequest('/students.php');
       render();
     } catch (err) {
       console.error('Load failed:', err);
@@ -150,8 +150,8 @@
           <span class="emoji">${hasStudents ? '🔍' : '📚'}</span>
           <h3>${hasStudents ? 'No matching students' : 'No students yet'}</h3>
           <p>${hasStudents
-            ? 'Try a different search or clear the filters.'
-            : 'Click "Add Student" to enroll your first student.'}</p>
+          ? 'Try a different search or clear the filters.'
+          : 'Click "Add Student" to enroll your first student.'}</p>
         </div>
       `;
       return;
@@ -267,15 +267,15 @@
     editingId = id;
     modalTitle.textContent = 'Edit Student';
 
-    fName.value         = student.name || '';
-    fRollNumber.value   = student.rollNumber || '';
-    fClass.value        = student.class || '';
-    fSection.value      = student.section || '';
-    fBloodGroup.value   = student.bloodGroup || '';
-    fDob.value          = student.dob || '';
-    fParentName.value   = student.parentName || '';
+    fName.value = student.name || '';
+    fRollNumber.value = student.rollNumber || '';
+    fClass.value = student.class || '';
+    fSection.value = student.section || '';
+    fBloodGroup.value = student.bloodGroup || '';
+    fDob.value = student.dob || '';
+    fParentName.value = student.parentName || '';
     fParentMobile.value = student.parentMobile || '';
-    fAddress.value      = student.address || '';
+    fAddress.value = student.address || '';
 
     clearErrors();
     modalBackdrop.classList.add('open');
@@ -308,14 +308,14 @@
     clearErrors();
     let valid = true;
 
-    if (!fName.value.trim())         { showError('name');         valid = false; }
-    if (!fRollNumber.value.trim())   { showError('rollNumber');   valid = false; }
-    if (!fClass.value)               { showError('class');        valid = false; }
-    if (!fSection.value)             { showError('section');      valid = false; }
-    if (!fParentName.value.trim())   { showError('parentName');   valid = false; }
+    if (!fName.value.trim()) { showError('name'); valid = false; }
+    if (!fRollNumber.value.trim()) { showError('rollNumber'); valid = false; }
+    if (!fClass.value) { showError('class'); valid = false; }
+    if (!fSection.value) { showError('section'); valid = false; }
+    if (!fParentName.value.trim()) { showError('parentName'); valid = false; }
 
     const mobile = fParentMobile.value.trim();
-    if (!/^\d{10}$/.test(mobile))    { showError('parentMobile'); valid = false; }
+    if (!/^\d{10}$/.test(mobile)) { showError('parentMobile'); valid = false; }
 
     return valid;
   }
@@ -328,25 +328,26 @@
     if (!validateForm()) return;
 
     const data = {
-      name:         fName.value.trim(),
-      rollNumber:   fRollNumber.value.trim(),
-      class:        fClass.value,
-      section:      fSection.value,
-      bloodGroup:   fBloodGroup.value,
-      dob:          fDob.value,
-      parentName:   fParentName.value.trim(),
+      name: fName.value.trim(),
+      rollNumber: fRollNumber.value.trim(),
+      class: fClass.value,
+      section: fSection.value,
+      bloodGroup: fBloodGroup.value,
+      dob: fDob.value,
+      parentName: fParentName.value.trim(),
       parentMobile: fParentMobile.value.trim(),
-      address:      fAddress.value.trim()
+      address: fAddress.value.trim()
     };
 
     try {
+      // In handleSave()
       if (editingId) {
-        await apiRequest(`/students/${editingId}`, {
+        await apiRequest(`/student.php?id=${editingId}`, {
           method: 'PUT',
           body: JSON.stringify(data)
         });
       } else {
-        await apiRequest('/students', {
+        await apiRequest('/students.php', {
           method: 'POST',
           body: JSON.stringify(data)
         });
